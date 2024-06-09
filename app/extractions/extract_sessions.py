@@ -38,7 +38,7 @@ def extract_min_num_imaging_sessions(user_query: str) -> int:
     try:
         return int(min_num_imaging_sessions)
     except ValueError:
-        return -1  # Return None if it's not a number
+        return -1  # Return -1 if it's not a number
 
 
 def extract_min_num_phenotypic_sessions(user_query: str) -> int:
@@ -73,7 +73,7 @@ def extract_min_num_phenotypic_sessions(user_query: str) -> int:
     try:
         return int(min_num_phenotypic_sessions)
     except ValueError:
-        return -1  # Return None if it's not a number
+        return -1  # Return -1 if it's not a number
 
 
 if __name__ == "__main__":
