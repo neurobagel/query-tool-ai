@@ -1,38 +1,46 @@
 from langchain_core.prompts import PromptTemplate
-from langchain_community.llms import HuggingFaceHub
+from langchain_community.chat_models import ChatOllama
 from langchain.chains import LLMChain
-from dotenv import load_dotenv
+import re
 
-# Load environment variables from .env file
-load_dotenv()
+
+def extract_output(output: str) -> str:
+    """
+    Extracts the sex from the given output string.
+    Args:
+        output (str): The output string from the LLM.
+    Returns:
+        str: The extracted sex ('male', 'female', or 'null').
+    """
+    match = re.search(
+        r"output\s*=\s*(male|female|null)", output, re.IGNORECASE
+    )
+    if match:
+        return match.group(1).lower()
+    else:
+        return "null"
 
 
 def extract_sex(user_query: str) -> str:
     """
     Extracts the sex mentioned in the given user query.
-
     Args:
         user_query (str): The query containing information about sex.
-
     Returns:
         str: The extracted sex if mentioned, otherwise 'null'.
     """
     prompt = PromptTemplate(
         input_variables=["user_query"],
         template="""
-        Given the information in {user_query} Extract sex from it
-        if given otherwise put 'null'
+        Extract the sex (male,female,other) from the following user_query if given, otherwise return 'null' in the following format:
+        output = <extracted_sex>
+        user_query: {user_query}
         """,
     )
-    llm = HuggingFaceHub(
-        repo_id="google/flan-t5-xxl", model_kwargs={"temperature": 0.01}
-    )
-    chain = LLMChain(prompt=prompt, llm=llm)
-
-    output = chain.invoke({"user_query": user_query})
-    sex = str(output["text"]).strip()
-
-    return sex
+    llm = ChatOllama(model="gemma")
+    chain = LLMChain(llm=llm, prompt=prompt)
+    output = chain.run(user_query)
+    return extract_output(output)
 
 
 if __name__ == "__main__":
