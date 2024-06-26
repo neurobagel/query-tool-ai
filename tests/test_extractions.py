@@ -1,7 +1,7 @@
 import pytest
 import warnings
 from typing import Dict
-from app.extractions import extract_information
+from app.LLM_extractions.extractions import extract_information
 
 
 @pytest.mark.parametrize(
