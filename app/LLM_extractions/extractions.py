@@ -93,6 +93,10 @@ def extract_information(context: str) -> Any:
         if v is not None and v != "None"
     }
 
+    # Set is_control to False if diagnosis is specified
+    if "diagnosis" in filtered_ordered_response:
+        filtered_ordered_response["is_control"] = False
+
     # Return the filtered ordered information as a dictionary
     return filtered_ordered_response
 
