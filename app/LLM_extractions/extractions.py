@@ -4,7 +4,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
 from typing import Optional, Any
 from validations import validate_age_order, validate_diagnosis_and_control
- 
+
 
 class Parameters(BaseModel):
     """
@@ -76,7 +76,7 @@ def extract_information(context: str) -> Any:
         },
     )
 
-    retries = 3 
+    retries = 3
     current_attempt = 0
 
     while current_attempt < retries:
@@ -101,21 +101,25 @@ def extract_information(context: str) -> Any:
             }
 
             # Validate age order
-            age_validation_result = validate_age_order(filtered_ordered_response)
+            age_validation_result = validate_age_order(
+                filtered_ordered_response
+            )
             if isinstance(age_validation_result, str):
-                return age_validation_result  
+                return age_validation_result
 
             # Validate diagnosis and control
-            diagnosis_validation_result = validate_diagnosis_and_control(filtered_ordered_response)
+            diagnosis_validation_result = validate_diagnosis_and_control(
+                filtered_ordered_response
+            )
             if diagnosis_validation_result:
-                return diagnosis_validation_result  
+                return diagnosis_validation_result
 
             # Return the filtered ordered information as a dictionary
             return filtered_ordered_response
 
         except Exception as e:
             print(f"Error occurred: {e}")
-            current_attempt += 1  
+            current_attempt += 1
             print(f"Retrying... Attempt {current_attempt} of {retries}")
 
     print(f"Failed to retrieve valid response after {retries} attempts.")
