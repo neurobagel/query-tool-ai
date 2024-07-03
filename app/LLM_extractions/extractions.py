@@ -2,7 +2,7 @@ from langchain_community.chat_models import ChatOllama
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
-from typing import Optional, Any
+from typing import Optional, Union
 from validations import validate_age_order, validate_diagnosis_and_control
 
 
@@ -45,7 +45,7 @@ class Parameters(BaseModel):
     image_modal: Optional[str] = Field(description="image modal", default=None)
 
 
-def extract_information(context: str) -> Any:
+def extract_information(context: str) -> Optional[Union[dict, str, None]]:
     """
     Extract information using LangChain pipeline with retry mechanism.
 

@@ -1,7 +1,9 @@
-from typing import Optional, Any
+from typing import Optional, Union
 
 
-def validate_age_order(filtered_ordered_response: dict) -> Optional[Union[dict, str, None]]:
+def validate_age_order(
+    filtered_ordered_response: dict,
+) -> Optional[Union[dict, str, None]]:
     """
     Validate that min_age is not greater than max_age.
     If validation fails, prompt user for confirmation to swap ages.
