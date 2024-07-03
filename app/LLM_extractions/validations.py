@@ -10,7 +10,7 @@ def validate_age_order(filtered_ordered_response: dict) -> Optional[Any]:
         filtered_ordered_response (dict): Filtered dictionary of extracted parameters.
 
     Returns:
-        dict or str: Validated response with swapped ages or error message.
+        dict or str or None: Validated response with swapped ages or error message.
                     Returns None if no action is required.
     """
 
