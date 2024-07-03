@@ -23,7 +23,7 @@ def validate_age_order(filtered_ordered_response: dict) -> Optional[Union[dict, 
 
         if min_age > max_age:
             confirmation = input(
-                f"Sorry but minimum age ({min_age}) can’t be bigger than maximum age ({max_age}). Would you like to see the result for min age {max_age} and max age {min_age}? If yes, please confirm (yes/no): "
+                f"Sorry but minimum age ({min_age}) can’t be bigger than maximum age ({max_age}). Would you like to see the result for min age {max_age} and max age {min_age}? (please respond with yes/no): "
             ).lower()
 
             if confirmation == "yes":
