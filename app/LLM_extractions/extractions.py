@@ -3,6 +3,7 @@ from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
 from typing import Optional, Union
+from tenacity import retry, stop_after_attempt, wait_fixed
 from validations import validate_age_order, validate_diagnosis_and_control
 
 
@@ -45,6 +46,7 @@ class Parameters(BaseModel):
     image_modal: Optional[str] = Field(description="image modal", default=None)
 
 
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(2))
 def extract_information(context: str) -> Optional[Union[dict, str, None]]:
     """
     Extract information using LangChain pipeline with retry mechanism.
@@ -76,53 +78,47 @@ def extract_information(context: str) -> Optional[Union[dict, str, None]]:
         },
     )
 
-    retries = 3
-    current_attempt = 0
+    try:
+        # Create extraction chain
+        chain = prompt | llm | parser
 
-    while current_attempt < retries:
-        try:
-            # Create extraction chain
-            chain = prompt | llm | parser
+        # Invoke chain with provided context
+        response = chain.invoke({"context": context})
 
-            # Invoke chain with provided context
-            response = chain.invoke({"context": context})
+        # Ensure the order of keys matches the Parameters model
+        ordered_response = {
+            field: response.get(field, None)
+            for field in Parameters.__fields__.keys()
+        }
 
-            # Ensure the order of keys matches the Parameters model
-            ordered_response = {
-                field: response.get(field, None)
-                for field in Parameters.__fields__.keys()
-            }
+        # Filter out keys where the value is None or 'None' (string)
+        filtered_ordered_response = {
+            k: v
+            for k, v in ordered_response.items()
+            if v is not None and v != "None"
+        }
 
-            # Filter out keys where the value is None or 'None' (string)
-            filtered_ordered_response = {
-                k: v
-                for k, v in ordered_response.items()
-                if v is not None and v != "None"
-            }
+        # Validate age order
+        age_validation_result = validate_age_order(filtered_ordered_response)
+        if isinstance(age_validation_result, str):
+            return age_validation_result
 
-            # Validate age order
-            age_validation_result = validate_age_order(
-                filtered_ordered_response
-            )
-            if isinstance(age_validation_result, str):
-                return age_validation_result
+        # Validate diagnosis and control
+        diagnosis_validation_result = validate_diagnosis_and_control(
+            filtered_ordered_response
+        )
+        if diagnosis_validation_result:
+            return diagnosis_validation_result
 
-            # Validate diagnosis and control
-            diagnosis_validation_result = validate_diagnosis_and_control(
-                filtered_ordered_response
-            )
-            if diagnosis_validation_result:
-                return diagnosis_validation_result
+        # Return the filtered ordered information as a dictionary
+        return filtered_ordered_response
 
-            # Return the filtered ordered information as a dictionary
-            return filtered_ordered_response
+    except Exception:
+        raise  # This will trigger the retry
 
-        except Exception as e:
-            print(f"Error occurred: {e}")
-            current_attempt += 1
-            print(f"Retrying... Attempt {current_attempt} of {retries}")
-
-    print(f"Failed to retrieve valid response after {retries} attempts.")
+    print(
+        "Sorry the model failed to understand the query. Could you be more precise?"
+    )
     return {}
 
 
