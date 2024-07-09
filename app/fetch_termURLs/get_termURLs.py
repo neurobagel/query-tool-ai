@@ -1,6 +1,11 @@
 import requests
 from typing import Optional, Dict, Any
-from termURL_mappings import sex_mapping, diagnosis_url, assessment_url, image_modality_mapping
+from termURL_mappings import (
+    sex_mapping,
+    diagnosis_url,
+    assessment_url,
+    image_modality_mapping,
+)
 
 
 def fetch_termURL_mappings(url: str) -> Optional[Dict[str, Any]]:
@@ -91,6 +96,7 @@ def get_image_modal_termURL(image_modal: str) -> str:
 
 
 if __name__ == "__main__":
+
     diagnosis = input("Enter diagnosis: ")
     print(f"Diagnosis TermURL: {get_diagnosis_termURL(diagnosis)}")
 
@@ -102,6 +108,3 @@ if __name__ == "__main__":
 
     image_modal = input("Enter image modality: ")
     print(f"image_modality TermURL: {get_image_modal_termURL(image_modal)}")
-
-
-
