@@ -2,7 +2,9 @@ from langchain_community.chat_models import ChatOllama
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
-from typing import Optional, Any
+from typing import Optional, Union
+from tenacity import retry, stop_after_attempt
+from validations import validate_age_order, validate_diagnosis_and_control
 
 
 class Parameters(BaseModel):
@@ -22,10 +24,10 @@ class Parameters(BaseModel):
     """
 
     max_age: Optional[str] = Field(
-        description="maximum age if specified", default=None
+        description="maximum age (upper age limit) if specified", default=None
     )
     min_age: Optional[str] = Field(
-        description="minimum age if specified", default=None
+        description="minimum age (lower age limit) if specified", default=None
     )
     sex: Optional[str] = Field(description="sex", default=None)
     diagnosis: Optional[str] = Field(description="diagnosis", default=None)
@@ -44,15 +46,17 @@ class Parameters(BaseModel):
     image_modal: Optional[str] = Field(description="image modal", default=None)
 
 
-def extract_information(context: str) -> Any:
+@retry(stop=stop_after_attempt(3))
+def extract_information(context: str) -> Optional[Union[dict, str, None]]:
     """
-    Extract information using LangChain pipeline.
+    Extract information using LangChain pipeline with retry mechanism.
 
     Args:
         context (str): Input context from which information is to be extracted.
 
     Returns:
-        dict: Extracted information structured according to Parameters schema.
+        dict or str: Extracted information structured according to Parameters schema,
+                    or error message if validation fails.
     """
 
     # Return empty dictionary if context is empty string
@@ -74,31 +78,48 @@ def extract_information(context: str) -> Any:
         },
     )
 
-    # Create extraction chain
-    chain = prompt | llm | parser
+    try:
+        # Create extraction chain
+        chain = prompt | llm | parser
 
-    # Invoke chain with provided context
-    response = chain.invoke({"context": context})
+        # Invoke chain with provided context
+        response = chain.invoke({"context": context})
 
-    # Ensure the order of keys matches the Parameters model
-    ordered_response = {
-        field: response.get(field, None)
-        for field in Parameters.__fields__.keys()
-    }
+        # Ensure the order of keys matches the Parameters model
+        ordered_response = {
+            field: response.get(field, None)
+            for field in Parameters.__fields__.keys()
+        }
 
-    # Filter out keys where the value is None or 'None' (string)
-    filtered_ordered_response = {
-        k: v
-        for k, v in ordered_response.items()
-        if v is not None and v != "None"
-    }
+        # Filter out keys where the value is None or 'None' (string)
+        filtered_ordered_response = {
+            k: v
+            for k, v in ordered_response.items()
+            if v is not None and v != "None"
+        }
 
-    # Set is_control to False if diagnosis is specified
-    if "diagnosis" in filtered_ordered_response:
-        filtered_ordered_response["is_control"] = False
+        # Validate age order
+        age_validation_result = validate_age_order(filtered_ordered_response)
+        if isinstance(age_validation_result, str):
+            return age_validation_result
 
-    # Return the filtered ordered information as a dictionary
-    return filtered_ordered_response
+        # Validate diagnosis and control
+        diagnosis_validation_result = validate_diagnosis_and_control(
+            filtered_ordered_response
+        )
+        if diagnosis_validation_result:
+            return diagnosis_validation_result
+
+        # Return the filtered ordered information as a dictionary
+        return filtered_ordered_response
+
+    except Exception:
+        raise  # This will trigger the retry
+
+    print(
+        "Sorry the model failed to understand the query. Could you be more precise?"
+    )
+    return {}
 
 
 def main() -> None:
@@ -111,7 +132,7 @@ def main() -> None:
             break
 
         response = extract_information(user_query)
-        print("LLM response:", response)
+        print("Model response:", response)
         print("")
 
 
