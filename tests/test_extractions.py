@@ -10,10 +10,10 @@ from app.LLM_extractions.extractions import extract_information
         (
             "How many subjects between 20 and 80 yrs old who have at least 3 phenotypic sessions and 2 imaging sessions?",
             {
-                "max_age": "80",
-                "min_age": "20",
-                "min_num_imaging_sessions": "2",
-                "min_num_phenotypic_sessions": "3",
+                "max_age": 80.0,
+                "min_age": 20.0,
+                "min_num_imaging_sessions": 2,
+                "min_num_phenotypic_sessions": 3,
             },
         ),
         (
@@ -29,7 +29,7 @@ from app.LLM_extractions.extractions import extract_information
                 "diagnosis": "traumatic brain injury",
                 "is_control": False,
                 "assessment": "child behaviour checklist",
-                "image_modal": "T2 weighted",
+                "image_modal": "t2 weighted",
             },
         ),
         (
@@ -38,7 +38,7 @@ from app.LLM_extractions.extractions import extract_information
                 "sex": "female",
                 "diagnosis": "social phobia",
                 "is_control": False,
-                "min_num_phenotypic_sessions": "1",
+                "min_num_phenotypic_sessions": 1,
             },
         ),
         ("", {}),

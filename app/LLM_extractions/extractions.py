@@ -29,7 +29,9 @@ class Parameters(BaseModel):
     min_age: Optional[str] = Field(
         description="minimum age (lower age limit) if specified", default=None
     )
-    sex: Optional[str] = Field(description="sex", default=None)
+    sex: Optional[str] = Field(
+        description="sex, only accepts 'male' or 'female'",default=None,examples=["male", "female"]
+    )
     diagnosis: Optional[str] = Field(description="diagnosis", default=None)
     is_control: Optional[bool] = Field(
         description="healthy control subjects", default=None
@@ -93,7 +95,7 @@ def extract_information(context: str) -> Optional[Union[dict, str, None]]:
 
         # Filter out keys where the value is None or 'None' (string)
         filtered_ordered_response = {
-            k: v
+            k: float(v) if k in ["min_age", "max_age"] and v is not None else int(v) if k in ["min_num_phenotypic_sessions", "min_num_imaging_sessions"] and v is not None else v.lower() if isinstance(v, str) and k in ["diagnosis", "assessment", "image_modal", "sex"] else v
             for k, v in ordered_response.items()
             if v is not None and v != "None"
         }
