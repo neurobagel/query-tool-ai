@@ -32,7 +32,7 @@ class Parameters(BaseModel):
     sex: Optional[str] = Field(
         description="sex, only accepts 'male' or 'female'",
         default=None,
-        examples=["male", "female"],
+        examples=["male", "female", "other"],
     )
     diagnosis: Optional[str] = Field(description="diagnosis", default=None)
     is_control: Optional[bool] = Field(
