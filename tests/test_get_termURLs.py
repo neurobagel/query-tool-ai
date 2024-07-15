@@ -62,8 +62,25 @@ def test_get_diagnosis_termURL(diagnosis: str, expected_termURL: str) -> None:
     """
     Test get_diagnosis_termURL function with different diagnosis inputs.
     """
-    diagnosis_termURL = get_diagnosis_termURL(diagnosis)
-    assert diagnosis_termURL == expected_termURL
+    mock_diagnosis_response = {
+        "nb:Diagnosis": [
+            {
+                "TermURL": "snomed:406506008",
+                "Label": "attention deficit hyperactivity disorder",
+            },
+            {
+                "TermURL": "snomed:110030002",
+                "Label": "concussion injury of brain",
+            },
+        ]
+    }
+
+    with patch(
+        "app.fetch_termURLs.get_termURLs.fetch_termURL_mappings",
+        return_value=mock_diagnosis_response,
+    ):
+        diagnosis_termURL = get_diagnosis_termURL(diagnosis)
+        assert diagnosis_termURL == expected_termURL
 
 
 @pytest.mark.parametrize(
@@ -80,8 +97,25 @@ def test_get_assessment_termURL(
     """
     Test get_assessment_termURL function with different assessment inputs.
     """
-    assessment_termURL = get_assessment_termURL(assessment)
-    assert assessment_termURL == expected_termURL
+    mock_assessment_response = {
+        "nb:Assessment": [
+            {
+                "TermURL": "cogatlas:trm_56abebfe9aaa3",
+                "Label": "zuckerman sensation seeking scale",
+            },
+            {
+                "TermURL": "cogatlas:trm_523f5c17d7edb",
+                "Label": "big five questionnaire",
+            },
+        ]
+    }
+
+    with patch(
+        "app.fetch_termURLs.get_termURLs.fetch_termURL_mappings",
+        return_value=mock_assessment_response,
+    ):
+        assessment_termURL = get_assessment_termURL(assessment)
+        assert assessment_termURL == expected_termURL
 
 
 @pytest.mark.parametrize(
@@ -114,5 +148,17 @@ def test_get_image_modal_termURL(
     """
     Test get_image_modal_termURL function with different image modality inputs.
     """
-    image_modal_termURL = get_image_modal_termURL(image_modal)
-    assert image_modal_termURL == expected_termURL
+    mock_image_modal_response = [
+        {
+            "termURL": "nidm:ArterialSpinLabeling",
+            "label": "arterial spin labeling",
+        },
+        {"termURL": "nidm:FlowWeighted", "label": "flow weighted"},
+    ]
+
+    with patch(
+        "app.fetch_termURLs.get_termURLs.image_modality_mapping",
+        mock_image_modal_response,
+    ):
+        image_modal_termURL = get_image_modal_termURL(image_modal)
+        assert image_modal_termURL == expected_termURL
