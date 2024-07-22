@@ -52,8 +52,6 @@ def test_extract_information(
     """
     with warnings.catch_warnings(record=True) as w:
         result = extract_information(context)
-
-        # Assert that the result matches the expected response
         assert result == expected_response
-        # Assert that no warnings were raised during the function call
+
         assert len(w) == 0, f"Unexpected warnings: {w}"
