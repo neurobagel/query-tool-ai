@@ -7,7 +7,7 @@ from app.fetch_termURLs.get_termURLs import (
     get_diagnosis_termURL,
     get_assessment_termURL,
     get_sex_termURL,
-    get_image_modal_termURL,
+    get_image_modality_termURL,
 )
 
 
@@ -53,9 +53,12 @@ def test_fetch_termURL_mappings_http_error() -> None:
 @pytest.mark.parametrize(
     "diagnosis, expected_termURL",
     [
-        ("attention deficit hyperactivity disorder", "snomed:406506008"),
-        ("concussion injury of brain", "snomed:110030002"),
-        ("unknown disease", "None"),
+        ("Concussion injury Of brain", "snomed:110030002"),
+        ("adhd", "snomed:406506008"),
+        ("OCD", "snomed:191736004"),
+        ("Parkinsons", "snomed:49049000"),
+        ("fibromalgia", "snomed:203082005"),
+        ("unknown", "None"),
     ],
 )
 def test_get_diagnosis_termURL(diagnosis: str, expected_termURL: str) -> None:
@@ -72,6 +75,12 @@ def test_get_diagnosis_termURL(diagnosis: str, expected_termURL: str) -> None:
                 "TermURL": "snomed:110030002",
                 "Label": "concussion injury of brain",
             },
+            {
+                "TermURL": "snomed:191736004",
+                "Label": "Obsessive-compulsive disorder",
+            },
+            {"TermURL": "snomed:49049000", "Label": "Parkinson's disease"},
+            {"TermURL": "snomed:203082005", "Label": "Fibromyalgia"},
         ]
     }
 
@@ -86,9 +95,10 @@ def test_get_diagnosis_termURL(diagnosis: str, expected_termURL: str) -> None:
 @pytest.mark.parametrize(
     "assessment, expected_termURL",
     [
-        ("zuckerman sensation seeking scale", "cogatlas:trm_56abebfe9aaa3"),
+        ("zuckerman scale", "cogatlas:trm_56abebfe9aaa3"),
         ("big five questionnaire", "cogatlas:trm_523f5c17d7edb"),
-        ("unknown assessment", "None"),
+        ("balloon analogue", "cogatlas:trm_4d559bcd67c18"),
+        ("unknown", "None"),
     ],
 )
 def test_get_assessment_termURL(
@@ -107,6 +117,10 @@ def test_get_assessment_termURL(
                 "TermURL": "cogatlas:trm_523f5c17d7edb",
                 "Label": "big five questionnaire",
             },
+            {
+                "TermURL": "cogatlas:trm_4d559bcd67c18",
+                "Label": "balloon analogue risk task",
+            },
         ]
     }
 
@@ -123,6 +137,9 @@ def test_get_assessment_termURL(
     [
         ("male", "snomed:248153007"),
         ("female", "snomed:248152002"),
+        ("fem", "snomed:248152002"),
+        ("M", "snomed:248153007"),
+        ("other", "snomed:32570681000036106"),
         ("unknown", "None"),
     ],
 )
@@ -135,30 +152,32 @@ def test_get_sex_termURL(sex: str, expected_termURL: str) -> None:
 
 
 @pytest.mark.parametrize(
-    "image_modal, expected_termURL",
+    "image_modality, expected_termURL",
     [
-        ("arterial spin labeling", "nidm:ArterialSpinLabeling"),
+        ("arterial labeling", "nidm:ArterialSpinLabeling"),
         ("flow weighted", "nidm:FlowWeighted"),
+        ("EEG", "nidm:EEG"),
         ("unknown image modality", "None"),
     ],
 )
-def test_get_image_modal_termURL(
-    image_modal: str, expected_termURL: str
+def test_get_image_modality_termURL(
+    image_modality: str, expected_termURL: str
 ) -> None:
     """
-    Test get_image_modal_termURL function with different image modality inputs.
+    Test get_image_modality_termURL function with different image modality inputs.
     """
-    mock_image_modal_response = [
+    mock_image_modality_response = [
         {
             "termURL": "nidm:ArterialSpinLabeling",
             "label": "arterial spin labeling",
         },
         {"termURL": "nidm:FlowWeighted", "label": "flow weighted"},
+        {"termURL": "nidm:EEG", "label": "Electroencephalogram"},
     ]
 
     with patch(
         "app.fetch_termURLs.get_termURLs.image_modality_mapping",
-        mock_image_modal_response,
+        mock_image_modality_response,
     ):
-        image_modal_termURL = get_image_modal_termURL(image_modal)
-        assert image_modal_termURL == expected_termURL
+        image_modality_termURL = get_image_modality_termURL(image_modality)
+        assert image_modality_termURL == expected_termURL
