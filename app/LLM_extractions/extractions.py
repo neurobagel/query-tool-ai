@@ -30,7 +30,7 @@ class Parameters(BaseModel):
         description="minimum age (lower age limit) if specified", default=None
     )
     sex: Optional[str] = Field(
-        description="sex, only accepts 'male' or 'female'",
+        description="sex, only accepts 'male' or 'female' or 'other'",
         default=None,
         examples=["male", "female", "other"],
     )
