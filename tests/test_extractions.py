@@ -24,11 +24,11 @@ from app.LLM_extractions.extractions import extract_information
             },
         ),
         (
-            "subjects diagnosed with traumatic brain injury assessed with child behaviour checklist and T2 weighted image modality",
+            "subjects diagnosed with traumatic brain injury assessed with balloon analogue risk task and T2 weighted image modality",
             {
                 "diagnosis": "traumatic brain injury",
                 "is_control": False,
-                "assessment": "child behaviour checklist",
+                "assessment": "balloon analogue risk task",
                 "image_modal": "t2 weighted",
             },
         ),
