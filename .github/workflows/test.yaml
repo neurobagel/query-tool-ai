@@ -32,6 +32,7 @@ jobs:
     - name: Pull Mistral Model
       run: |
         ollama pull mistral
+        ollama pull llama3
 
     - name: Run tests
       run: |
