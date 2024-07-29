@@ -44,7 +44,7 @@ mock_assessment_mappings = {
             "Female subjects suffering from Arachnoiditis assessed by regulated heat stimulation",
             '{"sex": "female", "diagnosis": "arachnoiditis", "assessment": "regulated heat stimulation"}',
             None,
-            "Unfortunately, Neurobagel currently doesn’t support a search (yet) for the following terms: arachnoiditis diagnosis, regulated heat stimulation assessment",
+            "Unfortunately, Neurobagel does not yet support searches for the following terms: arachnoiditis diagnosis, regulated heat stimulation assessment",
         ),
         (
             "subjects with maximum age 6 and minimum age 20",
