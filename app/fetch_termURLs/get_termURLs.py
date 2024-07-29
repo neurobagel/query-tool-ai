@@ -104,7 +104,7 @@ def get_assessment_termURL(assessment: str) -> str:
 
         # Partial match
         closest_matches = difflib.get_close_matches(
-            assessment, labels, n=1, cutoff=0.6
+            assessment, labels, n=1, cutoff=0.8
         )
         if closest_matches:
             closest_match = closest_matches[0]
@@ -141,7 +141,7 @@ def get_sex_termURL(sex: str) -> str:
 
     # Partial match
     closest_matches = difflib.get_close_matches(
-        sex, sex_mapping_lower.keys(), n=1, cutoff=0.6
+        sex, sex_mapping_lower.keys(), n=1, cutoff=0.8
     )
     if closest_matches:
         return sex_mapping_lower[closest_matches[0]]
@@ -176,7 +176,7 @@ def get_image_modality_termURL(image_modality: str) -> str:
 
     # Partial match
     closest_matches = difflib.get_close_matches(
-        image_modality, labels, n=1, cutoff=0.6
+        image_modality, labels, n=1, cutoff=0.8
     )
     if closest_matches:
         closest_match = closest_matches[0]

@@ -4,7 +4,6 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
 from typing import Optional, Union
 from tenacity import retry, stop_after_attempt
-from validations import validate_age_order, validate_diagnosis_and_control
 
 
 class Parameters(BaseModel):
@@ -120,18 +119,6 @@ def extract_information(context: str) -> Optional[Union[dict, str, None]]:
             for k, v in ordered_response.items()
             if v is not None and v != "None"
         }
-
-        # Validate age order
-        age_validation_result = validate_age_order(filtered_ordered_response)
-        if isinstance(age_validation_result, str):
-            return age_validation_result
-
-        # Validate diagnosis and control
-        diagnosis_validation_result = validate_diagnosis_and_control(
-            filtered_ordered_response
-        )
-        if diagnosis_validation_result:
-            return diagnosis_validation_result
 
         # Return the filtered ordered information as a dictionary
         return filtered_ordered_response
