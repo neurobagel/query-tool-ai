@@ -137,9 +137,6 @@ def extract_information(context: str) -> Optional[Union[dict, str, None]]:
 
 
 if __name__ == "__main__":
-    """
-    Main function to interactively extract information from user queries.
-    """
     while True:
         user_query = input("Enter user query (or 'exit' to quit): ")
         if user_query.lower() == "exit":
