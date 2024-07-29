@@ -114,7 +114,7 @@ def getApiURL(user_query: str) -> str:
 
         # Check for unsupported terms and construct the error message if any
         if unsupported_terms:
-            return f"Unfortunately, Neurobagel currently doesn’t support a search (yet) for the following terms: {', '.join(unsupported_terms)}"
+            return f"Unfortunately, Neurobagel does not yet support searches for the following terms: {', '.join(unsupported_terms)}"
 
         # Construct the full API URL by joining the base URL with the parameters
         api_url = base_api_url + "&".join(params)
