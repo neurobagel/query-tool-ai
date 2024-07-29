@@ -120,6 +120,10 @@ def extract_information(context: str) -> Optional[Union[dict, str, None]]:
             if v is not None and v != "None"
         }
 
+        if "diagnosis" in filtered_ordered_response:
+            if "is_control" not in filtered_ordered_response:
+                filtered_ordered_response["is_control"] = False
+
         # Return the filtered ordered information as a dictionary
         return filtered_ordered_response
 
