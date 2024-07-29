@@ -136,7 +136,7 @@ def extract_information(context: str) -> Optional[Union[dict, str, None]]:
     return {}
 
 
-def main() -> None:
+if __name__ == "__main__":
     """
     Main function to interactively extract information from user queries.
     """
@@ -148,7 +148,3 @@ def main() -> None:
         response = extract_information(user_query)
         print("Model response:", response)
         print("")
-
-
-if __name__ == "__main__":
-    main()
