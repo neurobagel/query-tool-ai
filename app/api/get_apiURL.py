@@ -121,7 +121,7 @@ def getApiURL(user_query: str) -> str:
         return api_url
 
     except json.JSONDecodeError:
-        return "Failed to decode the LLM response"
+        return "I'm sorry, but I couldn't find the information you're looking for. Could you provide more details or clarify your question?"
 
 
 if __name__ == "__main__":
