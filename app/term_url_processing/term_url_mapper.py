@@ -1,7 +1,7 @@
 import requests
 from typing import Optional, Dict, Any
 import difflib
-from termURL_mappings import (
+from term_url_mappings import (
     sex_mapping,
     diagnosis_url,
     assessment_url,

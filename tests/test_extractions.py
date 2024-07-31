@@ -2,7 +2,7 @@ import pytest
 import warnings
 from typing import Dict
 from unittest.mock import patch
-from app.LLM_extractions.extractions import extract_information, main
+from app.llm_processing.extractions import extract_information, main
 
 
 @pytest.mark.parametrize(
