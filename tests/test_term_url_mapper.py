@@ -2,7 +2,7 @@ import pytest
 from requests.exceptions import RequestException
 from unittest.mock import patch
 from typing import List, Dict
-from app.fetch_termURLs.get_termURLs import (
+from app.term_url_processing.term_url_mapper import (
     fetch_termURL_mappings,
     get_diagnosis_termURL,
     get_assessment_termURL,
@@ -85,7 +85,7 @@ def test_get_diagnosis_termURL(diagnosis: str, expected_termURL: str) -> None:
     }
 
     with patch(
-        "app.fetch_termURLs.get_termURLs.fetch_termURL_mappings",
+        "app.term_url_processing.term_url_mapper.fetch_termURL_mappings",
         return_value=mock_diagnosis_response,
     ):
         diagnosis_termURL = get_diagnosis_termURL(diagnosis)
@@ -125,7 +125,7 @@ def test_get_assessment_termURL(
     }
 
     with patch(
-        "app.fetch_termURLs.get_termURLs.fetch_termURL_mappings",
+        "app.term_url_processing.term_url_mapper.fetch_termURL_mappings",
         return_value=mock_assessment_response,
     ):
         assessment_termURL = get_assessment_termURL(assessment)
@@ -176,7 +176,7 @@ def test_get_image_modality_termURL(
     ]
 
     with patch(
-        "app.fetch_termURLs.get_termURLs.image_modality_mapping",
+        "app.term_url_processing.term_url_mapper.image_modality_mapping",
         mock_image_modality_response,
     ):
         image_modality_termURL = get_image_modality_termURL(image_modality)

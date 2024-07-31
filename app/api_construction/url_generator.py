@@ -1,10 +1,10 @@
 import json
-from app.LLM_extractions.extractions import extract_information
-from app.api.validations import (
+from app.llm_processing.extractions import extract_information
+from app.api_construction.validators import (
     validate_age_order,
     validate_diagnosis_and_control,
 )
-from app.fetch_termURLs.get_termURLs import (
+from app.term_url_processing.term_url_mapper import (
     get_diagnosis_termURL,
     get_assessment_termURL,
     get_sex_termURL,
@@ -12,7 +12,7 @@ from app.fetch_termURLs.get_termURLs import (
 )
 
 
-def getApiURL(user_query: str) -> str:
+def get_api_url(user_query: str) -> str:
     """
     Constructs the API URL using extracted parameters from the user's query.
 
@@ -131,6 +131,6 @@ if __name__ == "__main__":
         if user_query.lower() == "exit":
             break
 
-        api_url = getApiURL(user_query)
+        api_url = get_api_url(user_query)
         print("Response:", api_url)
         print("")
