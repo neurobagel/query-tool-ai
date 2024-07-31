@@ -136,7 +136,7 @@ def extract_information(context: str) -> Optional[Union[dict, str, None]]:
     return {}
 
 
-if __name__ == "__main__":
+def main():
     while True:
         user_query = input("Enter user query (or 'exit' to quit): ")
         if user_query.lower() == "exit":
@@ -145,3 +145,7 @@ if __name__ == "__main__":
         response = extract_information(user_query)
         print("Model response:", response)
         print("")
+
+
+if __name__ == "__main__":
+    main()

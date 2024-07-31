@@ -1,7 +1,8 @@
 import pytest
 import warnings
 from typing import Dict
-from app.LLM_extractions.extractions import extract_information
+from unittest.mock import patch
+from app.LLM_extractions.extractions import extract_information, main
 
 
 @pytest.mark.parametrize(
@@ -55,3 +56,21 @@ def test_extract_information(
         assert result == expected_response
 
         assert len(w) == 0, f"Unexpected warnings: {w}"
+
+
+def test_main_interactive():
+    """
+    Test the main interactive loop.
+    """
+    inputs = ["", "exit"]
+    expected_outputs = [
+        "Model response:",
+        "",
+    ]
+    with patch("builtins.input", side_effect=inputs):
+        with patch("builtins.print") as mock_print:
+            main()
+            actual_printed_outputs = [
+                call.args[0] for call in mock_print.call_args_list
+            ]
+            assert actual_printed_outputs == expected_outputs
