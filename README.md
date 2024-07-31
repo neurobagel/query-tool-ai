@@ -21,8 +21,7 @@
 
 - run python file
   ```
-  cd app/LLM_extractions
-  python3 extractions.py
-   ```
+  python3 -m app.api.get_apiURL
+  ```
 
 

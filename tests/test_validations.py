@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch
-from app.LLM_extractions.validations import (
+from app.api.validations import (
     validate_age_order,
     validate_diagnosis_and_control,
 )
