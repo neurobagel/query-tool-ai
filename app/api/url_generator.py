@@ -1,6 +1,6 @@
 import json
 from app.llm_processing.extractions import extract_information
-from app.api_construction.validators import (
+from app.api.validators import (
     validate_age_order,
     validate_diagnosis_and_control,
 )

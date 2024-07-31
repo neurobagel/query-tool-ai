@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch
-from app.api_construction.url_generator import get_api_url
+from app.api.url_generator import get_api_url
 
 # Define the mock responses for diagnosis and assessment term URLs
 mock_diagnosis_mappings = {
@@ -67,13 +67,13 @@ mock_assessment_mappings = {
     ],
 )
 @patch(
-    "app.api_construction.url_generator.get_diagnosis_termURL",
+    "app.api.url_generator.get_diagnosis_termURL",
     side_effect=lambda diagnosis: mock_diagnosis_mappings.get(
         diagnosis, "None"
     ),
 )
 @patch(
-    "app.api_construction.url_generator.get_assessment_termURL",
+    "app.api.url_generator.get_assessment_termURL",
     side_effect=lambda assessment: mock_assessment_mappings.get(
         assessment, "None"
     ),
@@ -87,7 +87,7 @@ def test_get_api_url(
     expected_output,
 ):
     with patch(
-        "app.api_construction.url_generator.extract_information",
+        "app.api.url_generator.extract_information",
         return_value=mock_llm_response,
     ):
         if mock_input_side_effect is not None:

@@ -21,7 +21,7 @@
 
 - run python file
   ```
-  python3 -m app.core_api.url_generator
+  python3 -m app.api.url_generator
   ```
 
 
