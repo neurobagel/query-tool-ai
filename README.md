@@ -7,7 +7,6 @@ Currently, the researcher or the data user has to answer a number of queries to 
 The aim of query-tol-ai would be to make this search process more user-friendly by adding an LLM style chatbot interface. This is to be done by utilizing large language models that will be able to interpret the user prompts and initiate the API calls accurately giving the user the desired results.
 
 ## Local installation
-
 - Clone the repository:
   ```
   git clone https://github.com/neurobagel/query-tool-ai.git
@@ -33,7 +32,6 @@ The aim of query-tol-ai would be to make this search process more user-friendly 
   Enter your query to get the desired API URL.
 
 ## Dockerized version
-
 - First, [install Docker](https://docs.docker.com/get-docker/).
 
 - After cloning the current repository, build the Docker image locally:
