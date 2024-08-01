@@ -10,6 +10,7 @@ The aim of query-tol-ai would be to make this search process more user-friendly 
 - Clone the repository:
   ```
   git clone https://github.com/neurobagel/query-tool-ai.git
+  cd query-tool-ai
   ```
 - Create and activate a virtual environment:
    ```
