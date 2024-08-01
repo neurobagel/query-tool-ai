@@ -22,7 +22,7 @@ The aim of query-tol-ai would be to make this search process more user-friendly 
    pip install -r requirements.txt
    ollama pull mistral
    ```
-- Run the Python script:
+- Run the python script:
   ```
   python3 app/api/url_generator.py
   ```
@@ -46,7 +46,6 @@ The aim of query-tol-ai would be to make this search process more user-friendly 
   -v /home/user/data:/app/output/ \
   --name query-tool-ai-container query-tool-ai
   ```
-
 - Execute the python script:
   ```
   docker exec -it query-tool-ai-container python3 /app/api/url_generator.py
