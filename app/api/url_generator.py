@@ -1,10 +1,14 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))  # Fixes import errors
+
 import json
-from app.llm_processing.extractions import extract_information
-from app.api.validators import (
+from llm_processing.extractions import extract_information
+from validators import (
     validate_age_order,
     validate_diagnosis_and_control,
 )
-from app.term_url_processing.term_url_mapper import (
+from term_url_processing.term_url_mapper import (
     get_diagnosis_termURL,
     get_assessment_termURL,
     get_sex_termURL,
