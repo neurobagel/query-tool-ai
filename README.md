@@ -4,7 +4,7 @@
 
 Currently, the researcher or the data user has to answer a number of queries to get the desired results and it often requires iteration. 
 
-The aim of query-tol-ai would be to make this search process more user-friendly by adding an LLM style chatbot interface. This is to be done by utilizing large language models that will be able to interpret the user prompts and initiate the API calls accurately giving the user the desired results.
+The aim of query-tool-ai would be to make this search process more user-friendly by adding an LLM style chatbot interface. This is to be done by utilizing large language models that will be able to interpret the user prompts and initiate the API calls accurately giving the user the desired results.
 
 ## Local installation - 
   ### Clone the repository :
