@@ -1,12 +1,13 @@
 import sys
 import os
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
-from api.url_generator import get_api_url
 
 sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 )  # Fixes import errors
+
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
+from api.url_generator import get_api_url
 
 
 router = APIRouter()
