@@ -1,7 +1,5 @@
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))  # Fixes import errors
-
 import json
 from llm_processing.extractions import extract_information
 from validators import (
@@ -14,6 +12,10 @@ from term_url_processing.term_url_mapper import (
     get_sex_termURL,
     get_image_modality_termURL,
 )
+
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+)  # Fixes import errors
 
 
 def get_api_url(user_query: str) -> str:
