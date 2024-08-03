@@ -104,6 +104,22 @@ The aim of query-tol-ai would be to make this search process more user-friendly 
     ```
     Enter your query to get the desired API URL.
 
+## Testing
+
+Neurobagel API utilizes [Pytest](https://docs.pytest.org/en/7.2.x/) framework for testing.
+
+To run the tests first make sure you're in repository's main directory.
+
+You can then run the tests by executing the following command in your terminal:
+
+```bash
+pytest tests
+```
+
+### License
+
+Neurobagel API is released under the terms of the [MIT License](LICENSE)
+
 
 
 

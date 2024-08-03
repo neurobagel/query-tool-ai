@@ -20,6 +20,6 @@ class QueryRequest(BaseModel):
 async def generate_url(request: QueryRequest):
     try:
         api_url = get_api_url(request.query)
-        return {"api_url": api_url}
+        return {"response": api_url}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
