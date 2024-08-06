@@ -66,11 +66,11 @@ mock_responses = {
 )
 @patch(
     "app.router.routes.get_api_url",
-    side_effect=lambda query: mock_responses.get(query, "None"),
 )
 def test_generate_url(
     mock_get_api_url, query, expected_status_code, expected_response
 ):
+    mock_get_api_url.return_value = expected_response
     response = client.post("/generate_url/", json={"query": query})
 
     assert response.status_code == expected_status_code
