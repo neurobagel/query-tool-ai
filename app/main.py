@@ -1,6 +1,10 @@
 import os
 from fastapi import FastAPI
+from dotenv import load_dotenv
 from router import routes
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = FastAPI()
 

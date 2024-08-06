@@ -32,8 +32,21 @@ The aim of query-tool-ai would be to make this search process more user-friendly
     -v /home/user/data:/app/output/ \
     --name query-tool-ai-container neurobagel-query-tool-ai
     ```
+
+    Then you can access the query tool ai at http://localhost:8000
+
+    **Note:** the query tool ai is listening on port 8000 inside the docker container, replace port 8000 by the port you would like to expose to the host. For example if you'd like to run the tool on port 8080 of your machine you can run the following command:
+    ```bash
+    docker run -d \
+    -p 8080:8000 \
+    -v ollama:/root/.ollama \
+    -v /home/user/data:/app/output/ \
+    --name query-tool-ai-container neurobagel-query-tool-ai
+    ```
+
+
   - #### Verify Host and Port
-    To ensure the server is running on localhost, you can check the logs or try accessing the server in your browser or with `curl`:
+    To ensure the server is running on localhost, you can check the logs or try accessing the server in your browser or with `curl`(assuming the the query tool ai is listening on port 8000):
     ```bash
     curl -X GET "http://localhost:8000/"
     ```
@@ -41,23 +54,6 @@ The aim of query-tool-ai would be to make this search process more user-friendly
     ```json
     {"message": "Welcome to the Neurobagel Query Tool AI API"}
     ``` 
-  - #### Check the `generate_url` Endpoint:
-
-    You can interact with the FastAPI application by sending a POST request to the generate_url endpoint. Here’s how you can do it using curl:
-    ```bash
-    curl -X POST "http://localhost:8000/generate_url/" -H "Content-Type: application/json" -d '{"query": "your query here"}'
-    ```
-    Replace "your query here" with the actual query you want to test.
-- #### Run the python script (optional):
-  If you need to run the specific Python script within the container, use the following command.
-  ```bash
-  docker exec -it query-tool-ai-container python3 /app/api/url_generator.py
-  ```
-  You should see the following prompt - 
-    ```bash
-    Enter user query (or 'exit' to quit): 
-    ```
-    Enter your query to get the desired API URL.
 
 ### Option 2 : Python
 - #### Create and activate a virtual environment:
@@ -70,39 +66,58 @@ The aim of query-tool-ai would be to make this search process more user-friendly
    pip install -r requirements.txt
    ollama pull mistral
    ```
+
+-  #### Set the environment variables.
+   | Environment Variable   | Type    | Required                                 | Default Value if Not Set | Example                                                   |
+   | ---------------------- | ------- | ---------------------------------------- | ------------------------ | --------------------------------------------------------- |
+   | `HOST`                 | string  | No                                       | `0.0.0.0`                | `127.0.0.1`                                               |
+   | `PORT`                 | integer | No                                       | `8000`                   | `8080`                                                    |
+
 - #### Run the FastAPI Server:
   ```bash
   python app/main.py
   ```
-  This command starts the FastAPI server on `http://localhost:8000`.
+  This command starts the FastAPI server on `http://localhost:8000`. (assuming PORT=8000)
 
 - #### Verify Host and Port
   To ensure the server is running on localhost, you can check the logs or try accessing the server in your browser or with `curl`:
   ```bash
-  curl -X GET "http://localhost:8000/"
+  curl -X GET "http://localhost:8000/" 
   ```
   You should see the response:
   ```json
   {"message": "Welcome to the Neurobagel Query Tool AI API"}
   ```
-- #### Check the `generate_url` Endpoint:
+ 
+## Interacting with the Query Tool AI 
+After the local installation is complete, you can ask your query in the following 2 ways.
 
-    You can interact with the FastAPI application by sending a POST request to the generate_url endpoint. Here’s how you can do it using curl:
-    ```bash
-    curl -X POST "http://localhost:8000/generate_url/" -H "Content-Type: application/json" -d '{"query": "your query here"}'
-    ```
-    Replace "your query here" with the actual query you want to test.
-
-- #### Run the python script (optional):
-  If you need to run the specific Python script, use the following command.
+### API Interaction - 
+  You can interact with the FastAPI application by sending a POST request to the generate_url endpoint. Here’s how you can do it using curl (assuming the the query tool ai is listening on port 8000):
   ```bash
-  python3 app/api/url_generator.py
+    curl -X POST "http://localhost:8000/generate_url/" -H "Content-Type: application/json" -d '{"query": "your query here"}'
   ```
-  You should see the following prompt - 
+  Replace "your query here" with the actual query you want to test.
+
+### Python Script Interaction (Optional) -
+  - If you have completed the local installation using **`docker`**, write the following command in the terminal.
     ```bash
-    Enter user query (or 'exit' to quit): 
+    docker exec -it query-tool-ai-container python3 /  app/api/url_generator.py
     ```
-    Enter your query to get the desired API URL.
+
+  - If you have completed the local installation using **`python`**, write the following command in the terminal.
+    ```bash
+    python3 app/api/url_generator.py
+    ```
+
+  You should see the following prompt - 
+
+  ```bash
+  Enter user query (or 'exit' to quit): 
+  ```
+
+  Enter your query to get the desired API URL.
+
 
 ## Testing
 
