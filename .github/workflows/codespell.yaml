@@ -23,4 +23,4 @@ jobs:
       - name: Codespell
         uses: codespell-project/actions-codespell@v2
         with: 
-          skip: ./app/term_url_processing/abbreviations/abbreviations_sex.py,./app/term_url_processing/abbreviations/abbreviations_diagnosis.py,./app/term_url_processing/abbreviations/abbreviations_assessment.py,./app/term_url_processing/abbreviations/abbreviations_image_modality.py
+          skip: ./app/term_url_processing/abbreviations/*
