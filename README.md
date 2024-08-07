@@ -12,6 +12,14 @@ The aim of query-tool-ai would be to make this search process more user-friendly
   git clone https://github.com/neurobagel/query-tool-ai.git
   cd query-tool-ai
   ```
+  
+  Before proceeding with either you need to set the environment variables.
+  ### Set the environment variables - 
+   | Environment Variable   | Type    | Required                                 | Default Value if Not Set | Example                                                   |
+   | ---------------------- | ------- | ---------------------------------------- | ------------------------ | --------------------------------------------------------- |
+   | `HOST`                 | string  | No                                       | `0.0.0.0`                | `127.0.0.1`                                               |
+   | `PORT`                 | integer | No                                       | `8000`                   | `8080`                                                    |
+
 
   After cloning the repository, you can choose to either use the Dockerized version or run the application locally using Python. 
   #### Follow the instructions for the option that suits you best:
@@ -66,12 +74,6 @@ The aim of query-tool-ai would be to make this search process more user-friendly
    pip install -r requirements.txt
    ollama pull mistral
    ```
-
--  #### Set the environment variables.
-   | Environment Variable   | Type    | Required                                 | Default Value if Not Set | Example                                                   |
-   | ---------------------- | ------- | ---------------------------------------- | ------------------------ | --------------------------------------------------------- |
-   | `HOST`                 | string  | No                                       | `0.0.0.0`                | `127.0.0.1`                                               |
-   | `PORT`                 | integer | No                                       | `8000`                   | `8080`                                                    |
 
 - #### Run the FastAPI Server:
   ```bash
