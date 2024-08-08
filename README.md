@@ -21,9 +21,6 @@ The aim of query-tool-ai would be to make this search process more user-friendly
    | `HOST`                 | string  | No                                       | `0.0.0.0`                | `127.0.0.1`                                               |
    | `PORT`                 | integer | No                                       | `8000`                   | `8080`                                                    |
 
-
-  #### Follow the instructions for the option that suits you best:
-
   ### Option 1 : Docker :
   - #### First, [install Docker](https://docs.docker.com/get-docker/).
   - #### Build the image using the Dockerfile
