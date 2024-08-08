@@ -13,7 +13,8 @@ The aim of query-tool-ai would be to make this search process more user-friendly
   cd query-tool-ai
   ```
   
-  Before proceeding with either you need to set the environment variables.
+  After cloning the repository, you can choose to either use the Dockerized version or run the application locally using Python but before proceeding with either you need to set the environment variables.
+
   ### Set the environment variables - 
    | Environment Variable   | Type    | Required                                 | Default Value if Not Set | Example                                                   |
    | ---------------------- | ------- | ---------------------------------------- | ------------------------ | --------------------------------------------------------- |
@@ -21,7 +22,6 @@ The aim of query-tool-ai would be to make this search process more user-friendly
    | `PORT`                 | integer | No                                       | `8000`                   | `8080`                                                    |
 
 
-  After cloning the repository, you can choose to either use the Dockerized version or run the application locally using Python. 
   #### Follow the instructions for the option that suits you best:
 
   ### Option 1 : Docker :
