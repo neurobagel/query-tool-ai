@@ -2,6 +2,19 @@ import pytest
 from unittest.mock import patch
 from app.api.url_generator import get_api_url
 
+
+def test_json_decode_error():
+    with patch(
+        "app.api.url_generator.extract_information",
+        return_value="{invalid_json: true",
+    ):
+        result = get_api_url("some user query")
+        assert (
+            result
+            == "I'm sorry, but I couldn't find the information you're looking for. Could you provide more details or clarify your question?"
+        )
+
+
 # Define the mock responses for diagnosis and assessment term URLs
 mock_diagnosis_mappings = {
     "traumatic brain injury": "snomed:127295002",
@@ -63,6 +76,12 @@ mock_assessment_mappings = {
             '{"sex": "female", "diagnosis": "ocd", "assessment": "balloon analogue risk task", "image_modal": "eeg"}',
             None,
             "https://api.neurobagel.org/query/?sex=snomed:248152002&diagnosis=snomed:191736004&is_control=false&assessment=cogatlas:trm_4d559bcd67c18&image_modal=nidm:EEG",
+        ),
+        (
+            "",
+            "{}",
+            None,
+            "Please enter a correct query",
         ),
     ],
 )

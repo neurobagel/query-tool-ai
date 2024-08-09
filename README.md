@@ -74,7 +74,7 @@ The aim of query-tool-ai would be to make this search process more user-friendly
 
 - #### Run the FastAPI Server:
   ```bash
-  python app/main.py
+  python3 -m app.main
   ```
   This command starts the FastAPI server on `http://localhost:8000`. (assuming PORT=8000)
 
@@ -94,19 +94,19 @@ After the local installation is complete, you can ask your query in the followin
 ### API Interaction - 
   You can interact with the FastAPI application by sending a POST request to the generate_url endpoint. Here’s how you can do it using curl (assuming the the query tool ai is listening on port 8000):
   ```bash
-    curl -X POST "http://localhost:8000/generate_url/" -H "Content-Type: application/json" -d '{"query": "your query here"}'
+  curl -X POST "http://localhost:8000/generate_url/" -H "Content-Type: application/json" -d '{"query": "your query here"}'
   ```
   Replace "your query here" with the actual query you want to test.
 
 ### Python Script Interaction (Optional) -
   - If you have completed the local installation using **`docker`**, write the following command in the terminal.
     ```bash
-    docker exec -it query-tool-ai-container python3 /  app/api/url_generator.py
+    docker exec -it query-tool-ai-container python3 -m app.api.url_generator
     ```
 
   - If you have completed the local installation using **`python`**, write the following command in the terminal.
     ```bash
-    python3 app/api/url_generator.py
+    python3 -m app.api.url_generator
     ```
 
   You should see the following prompt - 
