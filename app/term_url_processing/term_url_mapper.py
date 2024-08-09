@@ -1,16 +1,22 @@
 import requests
 from typing import Optional, Dict, Any
 import difflib
-from term_url_mappings import (
+from app.term_url_processing.term_url_mappings import (
     sex_mapping,
     diagnosis_url,
     assessment_url,
     image_modality_mapping,
 )
-from abbreviations.abbreviations_diagnosis import abbreviations_diagnosis
-from abbreviations.abbreviations_assessment import abbreviations_assessment
-from abbreviations.abbreviations_sex import abbreviations_sex
-from abbreviations.abbreviations_image_modality import (
+from app.term_url_processing.abbreviations.abbreviations_diagnosis import (
+    abbreviations_diagnosis,
+)
+from app.term_url_processing.abbreviations.abbreviations_assessment import (
+    abbreviations_assessment,
+)
+from app.term_url_processing.abbreviations.abbreviations_sex import (
+    abbreviations_sex,
+)
+from app.term_url_processing.abbreviations.abbreviations_image_modality import (
     abbreviations_image_modality,
 )
 
@@ -35,7 +41,7 @@ def fetch_termURL_mappings(url: str) -> Optional[Dict[str, Any]]:
         return None
 
 
-def get_diagnosis_termURL(diagnosis: str) -> str:
+def get_diagnosis_termURL(diagnosis: str) -> Optional[str]:
     """
     Retrieves the TermURL for a given diagnosis.
 
@@ -79,7 +85,7 @@ def get_diagnosis_termURL(diagnosis: str) -> str:
     return "None"
 
 
-def get_assessment_termURL(assessment: str) -> str:
+def get_assessment_termURL(assessment: str) -> Optional[str]:
     """
     Retrieves the TermURL for a given assessment.
 
@@ -122,7 +128,7 @@ def get_assessment_termURL(assessment: str) -> str:
     return "None"
 
 
-def get_sex_termURL(sex: str) -> str:
+def get_sex_termURL(sex: str) -> Optional[str]:
     """
     Retrieves the TermURL for a given sex.
 
@@ -154,7 +160,7 @@ def get_sex_termURL(sex: str) -> str:
     return "None"
 
 
-def get_image_modality_termURL(image_modality: str) -> str:
+def get_image_modality_termURL(image_modality: str) -> Optional[str]:
     """
     Retrieves the TermURL for a given image_modality, including partial matches.
 
@@ -185,7 +191,7 @@ def get_image_modality_termURL(image_modality: str) -> str:
                 return item.get("termURL")
 
     # Abbreviation match
-    for item in abbreviations_image_modality:
+    for item in abbreviations_image_modality:  # type: ignore
         if image_modality.lower() in (
             abbr.lower() for abbr in item["abbreviations"]
         ):
