@@ -191,7 +191,7 @@ def get_image_modality_termURL(image_modality: str) -> Optional[str]:
                 return item.get("termURL")
 
     # Abbreviation match
-    for item in abbreviations_image_modality:  # type: ignore
+    for item in abbreviations_image_modality:
         if image_modality.lower() in (
             abbr.lower() for abbr in item["abbreviations"]
         ):
