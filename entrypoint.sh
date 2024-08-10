@@ -2,6 +2,7 @@
 
 # Start the Ollama services first
 ollama serve &
+ollama pull mistral &
 ollama run mistral &
 
 # Start the FastAPI application
