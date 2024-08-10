@@ -105,13 +105,14 @@ def test_get_api_url(
     mock_input_side_effect,
     expected_output,
 ):
-    with patch(
-        "app.api.url_generator.extract_information",
-        return_value=mock_llm_response,
-    ):
-        if mock_input_side_effect is not None:
-            with patch("builtins.input", side_effect=mock_input_side_effect):
+    with patch.dict("os.environ", {"BASE_API_URL": "https://api.neurobagel.org/query/?"}):
+        with patch(
+           "app.api.url_generator.extract_information",
+            return_value=mock_llm_response,
+        ):
+            if mock_input_side_effect is not None:
+                with patch("builtins.input", side_effect=mock_input_side_effect):
+                   result = get_api_url(user_query)
+            else:
                 result = get_api_url(user_query)
-        else:
-            result = get_api_url(user_query)
-        assert result == expected_output
+            assert result == expected_output
