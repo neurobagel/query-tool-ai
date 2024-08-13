@@ -105,7 +105,7 @@ def test_get_api_url(
     mock_input_side_effect,
     expected_output,
 ):
-    with patch.dict("os.environ", {"BASE_API_URL": "https://api.neurobagel.org/query/?"}):
+    with patch.dict("os.environ", {"NB_API_QUERY_URL": "https://api.neurobagel.org/query/?"}):
         with patch(
            "app.api.url_generator.extract_information",
             return_value=mock_llm_response,
