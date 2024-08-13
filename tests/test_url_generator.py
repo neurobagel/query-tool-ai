@@ -8,12 +8,9 @@ def test_get_api_url_without_env_var(monkeypatch):
     monkeypatch.delenv("NB_API_QUERY_URL", raising=False)
 
     user_query = "Some query"
-    result = get_api_url(user_query)
-
-    assert (
-        result
-        == "Error: The NB_API_QUERY_URL environment variable is not set. Please configure it and try again."
-    )
+    
+    with pytest.raises(RuntimeError, match="The application was launched but could not find the NB_API_QUERY_URL environment variable."):
+        get_api_url(user_query)
 
 
 def test_json_decode_error():

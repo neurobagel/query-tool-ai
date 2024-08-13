@@ -28,7 +28,10 @@ def get_api_url(user_query: str) -> str:
     """
     base_api_url = os.getenv("NB_API_QUERY_URL")
     if not base_api_url:
-        return "Error: The NB_API_QUERY_URL environment variable is not set. Please configure it and try again."
+        raise RuntimeError(
+            "The application was launched but could not find the NB_API_QUERY_URL environment variables."
+        )
+        
 
     llm_response = extract_information(user_query)
 
