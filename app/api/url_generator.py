@@ -29,7 +29,7 @@ def get_api_url(user_query: str) -> str:
     base_api_url = os.getenv("NB_API_QUERY_URL")
     if not base_api_url:
         raise RuntimeError(
-            "The application was launched but could not find the NB_API_QUERY_URL environment variables."
+            "The application was launched but could not find the NB_API_QUERY_URL environment variable."
         )
         
 
