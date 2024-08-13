@@ -26,7 +26,7 @@ def get_api_url(user_query: str) -> str:
     Returns:
         str: The constructed API URL.
     """
-    base_api_url = os.getenv("BASE_API_URL", "None")
+    base_api_url = os.getenv("NB_API_QUERY_URL", "None")
     llm_response = extract_information(user_query)
 
     try:
