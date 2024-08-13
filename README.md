@@ -18,7 +18,7 @@ The aim of query-tool-ai would be to make this search process more user-friendly
   ### Set the environment variables - 
    | Environment Variable   | Type    | Required                                 | Default Value if Not Set | Example                                                   |
    | ---------------------- | ------- | ---------------------------------------- | ------------------------ | --------------------------------------------------------- |
-   | `NB_API_QUERY_URL`                 | string  | Yes                                       | `None`                | `https://api.neurobagel.org/query/?`                                               |
+   | `NB_API_QUERY_URL`                 | string  | Yes                                       | -                | `https://api.neurobagel.org/query/?`                                               |
    | `HOST`                 | string  | No                                       | `0.0.0.0`                | `127.0.0.1`                                               |
    | `PORT`                 | integer | No                                       | `8000`                   | `8080`                                                    |
    

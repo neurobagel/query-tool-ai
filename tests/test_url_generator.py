@@ -3,6 +3,16 @@ from unittest.mock import patch
 from app.api.url_generator import get_api_url
 
 
+def test_get_api_url_without_env_var(monkeypatch):
+    # Unset the environment variable
+    monkeypatch.delenv("NB_API_QUERY_URL", raising=False)
+
+    user_query = "Some query"
+    result = get_api_url(user_query)
+
+    assert result == "Error: The NB_API_QUERY_URL environment variable is not set. Please configure it and try again."
+
+
 def test_json_decode_error():
     with patch(
         "app.api.url_generator.extract_information",
