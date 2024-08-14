@@ -3,16 +3,30 @@ from unittest.mock import patch
 from app.api.url_generator import get_api_url
 
 
+def test_get_api_url_without_env_var(monkeypatch):
+    # Unset the environment variable
+    monkeypatch.delenv("NB_API_QUERY_URL", raising=False)
+
+    user_query = "Some query"
+    
+    with pytest.raises(RuntimeError, match="The application was launched but could not find the NB_API_QUERY_URL environment variable."):
+        get_api_url(user_query)
+
+
 def test_json_decode_error():
-    with patch(
-        "app.api.url_generator.extract_information",
-        return_value="{invalid_json: true",
+    with patch.dict(
+        "os.environ",
+        {"NB_API_QUERY_URL": "https://api.neurobagel.org/query/?"},
     ):
-        result = get_api_url("some user query")
-        assert (
-            result
-            == "I'm sorry, but I couldn't find the information you're looking for. Could you provide more details or clarify your question?"
-        )
+        with patch(
+            "app.api.url_generator.extract_information",
+            return_value="{invalid_json: true",
+        ):
+            result = get_api_url("some user query")
+            assert (
+                result
+                == "I'm sorry, but I couldn't find the information you're looking for. Could you provide more details or clarify your question?"
+            )
 
 
 # Define the mock responses for diagnosis and assessment term URLs
@@ -105,13 +119,19 @@ def test_get_api_url(
     mock_input_side_effect,
     expected_output,
 ):
-    with patch(
-        "app.api.url_generator.extract_information",
-        return_value=mock_llm_response,
+    with patch.dict(
+        "os.environ",
+        {"NB_API_QUERY_URL": "https://api.neurobagel.org/query/?"},
     ):
-        if mock_input_side_effect is not None:
-            with patch("builtins.input", side_effect=mock_input_side_effect):
+        with patch(
+            "app.api.url_generator.extract_information",
+            return_value=mock_llm_response,
+        ):
+            if mock_input_side_effect is not None:
+                with patch(
+                    "builtins.input", side_effect=mock_input_side_effect
+                ):
+                    result = get_api_url(user_query)
+            else:
                 result = get_api_url(user_query)
-        else:
-            result = get_api_url(user_query)
-        assert result == expected_output
+            assert result == expected_output

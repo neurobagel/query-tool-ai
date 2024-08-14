@@ -1,4 +1,6 @@
 import json
+import os
+from dotenv import load_dotenv
 from app.llm_processing.extractions import extract_information
 from app.api.validators import (
     validate_age_order,
@@ -11,6 +13,8 @@ from app.term_url_processing.term_url_mapper import (
     get_image_modality_termURL,
 )
 
+load_dotenv()
+
 
 def get_api_url(user_query: str) -> str:
     """
@@ -22,7 +26,13 @@ def get_api_url(user_query: str) -> str:
     Returns:
         str: The constructed API URL.
     """
-    base_api_url = "https://api.neurobagel.org/query/?"
+    base_api_url = os.getenv("NB_API_QUERY_URL")
+    if not base_api_url:
+        raise RuntimeError(
+            "The application was launched but could not find the NB_API_QUERY_URL environment variable."
+        )
+        
+
     llm_response = extract_information(user_query)
 
     try:
