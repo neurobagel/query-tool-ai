@@ -84,9 +84,10 @@ def get_api_url(user_query: str) -> str:
                 params.append(f"diagnosis={diagnosis_term_url}")
 
         if "is_control" in llm_response:
-            params.append(
-                f"is_control={str(llm_response['is_control']).lower()}"
-            )
+            if "diagnosis" not in llm_response:
+                params.append(
+                    f"is_control={str(llm_response['is_control']).lower()}"
+                )
 
         if "min_num_imaging_sessions" in llm_response:
             params.append(
