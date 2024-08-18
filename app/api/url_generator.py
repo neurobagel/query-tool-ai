@@ -48,8 +48,6 @@ def get_api_url(user_query: str) -> str:
         age_validation_result = validate_age_order(llm_response)
         if isinstance(age_validation_result, str):
             return age_validation_result
-        elif isinstance(age_validation_result, dict):
-            llm_response = age_validation_result
 
         diagnosis_validation_result = validate_diagnosis_and_control(
             llm_response
