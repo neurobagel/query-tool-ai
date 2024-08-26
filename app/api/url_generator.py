@@ -133,8 +133,7 @@ def get_api_url(user_query: str) -> str:
         return "I'm sorry, but I couldn't find the information you're looking for. Could you provide more details or clarify your question?"
 
 
-if __name__ == "__main__":
-
+def main():
     while True:
         user_query = input("Enter user query (or 'exit' to quit): ")
         if user_query.lower() == "exit":
@@ -143,3 +142,6 @@ if __name__ == "__main__":
         api_url = get_api_url(user_query)
         print("Response:", api_url)
         print("")
+
+if __name__ == "__main__":
+    main()
