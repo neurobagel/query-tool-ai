@@ -31,7 +31,6 @@ def get_api_url(user_query: str) -> str:
         raise RuntimeError(
             "The application was launched but could not find the NB_API_QUERY_URL environment variable."
         )
-        
 
     llm_response = extract_information(user_query)
 
@@ -142,6 +141,7 @@ def main():
         api_url = get_api_url(user_query)
         print("Response:", api_url)
         print("")
+
 
 if __name__ == "__main__":
     main()

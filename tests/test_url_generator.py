@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch
-from app.api.url_generator import get_api_url,main
+from app.api.url_generator import get_api_url, main
 
 
 def test_get_api_url_without_env_var(monkeypatch):
@@ -8,8 +8,11 @@ def test_get_api_url_without_env_var(monkeypatch):
     monkeypatch.delenv("NB_API_QUERY_URL", raising=False)
 
     user_query = "Some query"
-    
-    with pytest.raises(RuntimeError, match="The application was launched but could not find the NB_API_QUERY_URL environment variable."):
+
+    with pytest.raises(
+        RuntimeError,
+        match="The application was launched but could not find the NB_API_QUERY_URL environment variable.",
+    ):
         get_api_url(user_query)
 
 
@@ -115,6 +118,7 @@ def test_get_api_url(
             result = get_api_url(user_query)
             assert result == expected_output
 
+
 def test_main_interactive():
     """
     Test the main interactive loop.
@@ -124,10 +128,14 @@ def test_main_interactive():
         "Response:",
         "",
     ]
-    with patch("builtins.input", side_effect=inputs):
-        with patch("builtins.print") as mock_print:
-            main()
-            actual_printed_outputs = [
-                call.args[0] for call in mock_print.call_args_list
-            ]
-            assert actual_printed_outputs == expected_outputs
+    with patch.dict(
+        "os.environ",
+        {"NB_API_QUERY_URL": "https://api.neurobagel.org/query/?"},
+    ):
+        with patch("builtins.input", side_effect=inputs):
+            with patch("builtins.print") as mock_print:
+                main()
+                actual_printed_outputs = [
+                    call.args[0] for call in mock_print.call_args_list
+                ]
+                assert actual_printed_outputs == expected_outputs
