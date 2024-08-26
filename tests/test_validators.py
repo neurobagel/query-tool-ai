@@ -16,30 +16,15 @@ from app.api.validators import (
         ),
     ],
 )
-def test_validate_age_order_no_swap(
+def test_validate_age_order(
     filtered_ordered_response, expected_response
 ):
     """
     Test validate_age_order function without user confirmation to swap ages.
     """
-    with patch("builtins.input", return_value="no"):
-        result = validate_age_order(filtered_ordered_response)
-        assert result == expected_response
+    result = validate_age_order(filtered_ordered_response)
+    assert result == expected_response
 
-
-@pytest.mark.parametrize(
-    "filtered_ordered_response, expected_response",
-    [({"min_age": "49", "max_age": "30"}, {"min_age": "30", "max_age": "49"})],
-)
-def test_validate_age_order_with_swap(
-    filtered_ordered_response, expected_response
-):
-    """
-    Test validate_age_order function with user confirmation to swap ages.
-    """
-    with patch("builtins.input", return_value="yes"):
-        result = validate_age_order(filtered_ordered_response)
-        assert result == expected_response
 
 
 @pytest.mark.parametrize(

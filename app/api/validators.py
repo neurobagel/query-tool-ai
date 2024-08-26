@@ -24,18 +24,9 @@ def validate_age_order(
         max_age = int(filtered_ordered_response["max_age"])
 
         if min_age > max_age:
-            confirmation = input(
-                f"Sorry but minimum age ({min_age}) can’t be bigger than maximum age ({max_age}). Would you like to see the result for min age {max_age} and max age {min_age}? (please respond with yes/no): "
+            return (
+                "Sorry but minimum age can’t be bigger than maximum age."
             )
-
-            if confirmation.lower() == "yes":
-                filtered_ordered_response["min_age"] = str(max_age)
-                filtered_ordered_response["max_age"] = str(min_age)
-                return filtered_ordered_response
-            else:
-                return (
-                    "Sorry but minimum age can’t be bigger than maximum age."
-                )
 
     return None
 
@@ -58,7 +49,5 @@ def validate_diagnosis_and_control(
             and filtered_ordered_response["is_control"]
         ):
             return "Subjects cannot both be healthy controls and have a diagnosis."
-
-        filtered_ordered_response["is_control"] = False
 
     return None

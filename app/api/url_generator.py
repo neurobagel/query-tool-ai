@@ -31,7 +31,6 @@ def get_api_url(user_query: str) -> str:
         raise RuntimeError(
             "The application was launched but could not find the NB_API_QUERY_URL environment variable."
         )
-        
 
     llm_response = extract_information(user_query)
 
@@ -48,8 +47,6 @@ def get_api_url(user_query: str) -> str:
         age_validation_result = validate_age_order(llm_response)
         if isinstance(age_validation_result, str):
             return age_validation_result
-        elif isinstance(age_validation_result, dict):
-            llm_response = age_validation_result
 
         diagnosis_validation_result = validate_diagnosis_and_control(
             llm_response
@@ -84,9 +81,10 @@ def get_api_url(user_query: str) -> str:
                 params.append(f"diagnosis={diagnosis_term_url}")
 
         if "is_control" in llm_response:
-            params.append(
-                f"is_control={str(llm_response['is_control']).lower()}"
-            )
+            if "diagnosis" not in llm_response:
+                params.append(
+                    f"is_control={str(llm_response['is_control']).lower()}"
+                )
 
         if "min_num_imaging_sessions" in llm_response:
             params.append(
@@ -134,8 +132,7 @@ def get_api_url(user_query: str) -> str:
         return "I'm sorry, but I couldn't find the information you're looking for. Could you provide more details or clarify your question?"
 
 
-if __name__ == "__main__":
-
+def main():
     while True:
         user_query = input("Enter user query (or 'exit' to quit): ")
         if user_query.lower() == "exit":
@@ -144,3 +141,7 @@ if __name__ == "__main__":
         api_url = get_api_url(user_query)
         print("Response:", api_url)
         print("")
+
+
+if __name__ == "__main__":
+    main()
